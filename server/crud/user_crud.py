@@ -1,13 +1,18 @@
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from Models.models import User
+from typing import List, Optional
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 def get_user_by_id(db:Session, user_id:int)->User|None:
     return db.query(User).filter(User.user_id == user_id).first()
+
 def get_user_by_email(db:Session, user_email:str)->User|None:
     return db.query(User).filter(User.user_email == user_email).first()
+
+def get_all_users(db: Session) -> List[User]:
+    return db.query(User).all()
 
 def create_user(db:Session, user_email:str, user_password:str, user_name:str)->User|None:
     hashed_password = pwd_context.hash(user_password)

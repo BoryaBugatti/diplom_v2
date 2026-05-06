@@ -1,7 +1,7 @@
 <template>
   <div class="flex align-items-center justify-content-center min-h-screen bg-gradient">
-    <div class="w-full max-w-md p-8">
-      <Card>
+    <div class="w-full max-w-md display flex justify-content-center">
+      <Card style="width: 450px">
         <template #title>
           <div class="flex flex-column align-items-center gap-2">
             <i class="pi pi-lock text-4xl text-primary"></i>
@@ -97,6 +97,8 @@
   </div>
 </template>
 
+
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -117,19 +119,23 @@ const UserEmail = ref('');
 const UserPassword = ref('');
 
 const Reg = async () => {
-  const response = await axios.post("http://127.0.0.1:8000/reg", {
-    user_email: UserEmail.value,
-    user_name: UserName.value,
-    user_password: UserPassword.value
-  });
-  if (response.data.status == "OK"){
-    UserName = '';
-    UserEmail = '';
-    UserPassword = '';
-    alert('Вы успешно зарегистрировались, теперь вы будете перенаправлены на странциу авторизации');
-    router.push('/');
+  try{
+    const response = await axios.post("http://127.0.0.1:8000/reg", {
+      user_email: UserEmail.value,
+      user_name: UserName.value,
+      user_password: UserPassword.value
+    });
+    if (response.data.status == "OK"){
+      UserName.value = '';
+      UserEmail.value = '';
+      UserPassword.value = '';
+      alert('Вы успешно зарегистрировались, теперь вы будете перенаправлены на странциу авторизации');
+      router.push('/');
+    }
   }
-  alert(reponse.data.status);
+  catch(error){
+    alert(error);
+  }
 }
 
 </script>

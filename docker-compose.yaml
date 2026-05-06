@@ -18,7 +18,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: tender_pgadmin
+    container_name: coffee_pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: admin

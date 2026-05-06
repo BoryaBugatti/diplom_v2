@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import App from "@/App.vue";
 import AuthPage from "@/pages/AuthPage.vue";
 import MainPage from '@/pages/MainPage.vue';
 import UserLK from '@/pages/UserLK.vue';
-import Reg from "@/components/RegisterForm.vue"
+import Reg from "@/components/RegisterForm.vue";
+import AdministratorLK from '@/pages/AdministratorLK.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,6 +22,10 @@ const router = createRouter({
     {
       path: '/Register',
       component: Reg,
+    },
+    {
+      path: '/AdminLK',
+      component: AdministratorLK,
     }
   ],
 })

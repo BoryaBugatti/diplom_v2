@@ -16,11 +16,16 @@ def get_db():
 
 router = APIRouter(prefix="/reg")
 
-@router.post("")
+@router.post("", status_code=status.HTTP_201_CREATED)
 def register(user_data:UserBase, db: Session = Depends(get_db)):
     existing_user = get_user_by_email(db, user_data.user_email)
     if existing_user != None:
-        return{"message": "Пользователь с такой почтой уже существует"}
-    else:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="User with this email already registered"
+        )
+    try:
         new_user = create_user(db=db, user_email=user_data.user_email, user_password=user_data.user_password, user_name=user_data.user_name)
         return {"status": "OK"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

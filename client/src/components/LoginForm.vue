@@ -1,7 +1,7 @@
 <template>
   <div class="flex align-items-center justify-content-center min-h-screen bg-gradient">
-    <div class="w-full max-w-md p-8">
-      <Card>
+    <div class="w-full max-w-md display flex justify-content-center">
+      <Card style="width: 450px">
         <template #title>
           <div class="flex flex-column align-items-center gap-2">
             <i class="pi pi-lock text-4xl text-primary"></i>
@@ -101,20 +101,20 @@ const password = ref();
 
 const email = ref();
 
-const LogIn = async () => {
-  const response = await axios.post("http://127.0.0.1:8000/auth", {
-    user_email: email.value,
-    user_password: password.value
-  });
-
-  if (response.data.status == "OK"){
-    localStorage.setItem("user_email", email.value);
-    localStorage.setItem("user_name", response.data.user_name);
-    alert('Вы успешно авторизовались')
+async function LogIn() {
+  try {
+    const response = await axios.post('http://localhost:8000/auth/login', {
+      user_email: email.value,
+      user_password: password.value
+    });
+    const token = response.data.access_token;
+    localStorage.setItem('access_token', token);
+    localStorage.setItem('user_name', response.data.user_name);
+    localStorage.setItem('user_role', response.data.user_role);
+    localStorage.setItem('user_email', response.data.user_email);
     router.push('/MainPage');
-  }
-  if (response.data.message == "Неверный логин или пароль"){
-    alert(response.data.message);
+  } catch (error) {
+    alert(error);
   }
 }
 </script>
